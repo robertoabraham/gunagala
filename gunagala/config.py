@@ -75,6 +75,7 @@ def load_config(config_files=None, simulator=None, parse=True, ignore_local=Fals
         # Load local version of config
         if not ignore_local:
             local_version = os.path.join(config_dir, f.replace('.', '_local.'))
+            print("BOB_DEBUG: local_version = {:s}".format(local_version))
             if not local_version.startswith('/'):
                 local_version = get_pkg_data_filename(local_version)
 
