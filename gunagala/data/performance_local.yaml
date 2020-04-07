@@ -10,6 +10,12 @@ optics:
         throughput: rasa_tau.csv
         central_obstruction: 129.0 # millimetres
 
+    uoft_smallsat_c8: #Not seriously proposing we launch a Celestron 8 into space! But use it as a model
+        aperture: 200 # millimetres
+        focal_length: 2000 # millimetres
+        throughput: uoft_smallsat_throughput.csv
+        central_obstruction: 60 # millimetres
+
     ase90: # Australian Space Eye nominal 90 mm diameter telescope
         aperture: 90.0 # millimtres
         focal_length: 481.0 # millimetres
@@ -60,6 +66,19 @@ cameras:
         QE: ZWO_QE_asi1600.csv
         minimum_exposure: 0.000032 # second
 
+    fli_kepler_cmos_fudged: # FLI Kepler CMOS - Note: gain is variable & changes effective read noise, dynamic range. These are near max values.
+        bit_depth: 16
+        full_well: 89000 # electron / pixel
+        gain: 2.75 # electron / ADU
+        bias: 150 # ADU / pixel (I have no idea... made this up)
+        readout_time: 0.068 # second (I have no idea... made this up. ~15fps)
+        pixel_size: 11.0 # micron / pixel
+        resolution: 2048, 2048 # pixel
+        read_noise: 1.5 # electron / pixel
+        dark_current: 0.004 # electron / (second * pixel)  NOTE THAT THIS IS 10x LOWER THAN THE SPEC SHEET, AS I AM ASSUMING IT IS VERY COLD IN SPAAAAACE.
+        QE: kepler_cmos.csv
+        minimum_exposure: 0.000032 # second
+
     cis115: # e2v CIS115 'Sirius' back side illuminated CMOS image sensor
         bit_depth: 16
         full_well: 27000 # electron/pixel. This is 'Q_LIN' from datasheet, charge at which pixel goes non-linear (>5%)
@@ -74,6 +93,17 @@ cameras:
         minimum_exposure: 0.1333 # second. Continuous 'rolling shutter' mode for full drame. ROI could be quicker.
 
 filters:
+
+    tuv1:
+        transmission: toronto_uv1_filter.csv
+        apply_aoi: True
+        n_eff: 1.75
+
+    tuv2:
+        transmission: toronto_uv2_filter.csv
+        apply_aoi: True
+        n_eff: 1.75
+
     g:
         transmission: astrodon_g.csv
         apply_aoi: True
@@ -203,6 +233,13 @@ psfs:
 
 
 skys:
+
+    Amanda_Sky_Estimate: # Amanda figures this is about right
+        model: Simple
+        surface_brightness:  # AB mag 'per square arcsecond'
+            tuv1: 26.0
+            tuv2: 25.0
+
     CTIO_0day: # From DECam ETC v7, 0 day Moon
         model: Simple
         surface_brightness:  # AB mag 'per square arcsecond'
@@ -248,6 +285,18 @@ skys:
 
 
 imagers:
+
+    toronto_prototype_1:
+        optic: uoft_smallsat_c8
+        camera: fli_kepler_cmos_fudged
+        filters:
+            - tuv1
+            - tuv2
+        psf: 2as
+        sky: Amanda_Sky_Estimate
+        num_imagers: 1
+        num_per_computer: 1
+
     canon_sbig_dark:
         optic: canon
         camera: sbig
