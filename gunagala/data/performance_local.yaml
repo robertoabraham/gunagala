@@ -66,7 +66,7 @@ cameras:
         QE: ZWO_QE_asi1600.csv
         minimum_exposure: 0.000032 # second
 
-    fli_kepler_cmos_fudged: # FLI Kepler CMOS - Note: gain is variable & changes effective read noise, dynamic range. These are near max values.
+    fli_kepler_cmos_fudged: # FLI Kepler CMOS - Note: gain is variable & changes effective read noise, dynamic range. These are guesses.
         bit_depth: 16
         full_well: 89000 # electron / pixel
         gain: 2.75 # electron / ADU
@@ -75,7 +75,7 @@ cameras:
         pixel_size: 11.0 # micron / pixel
         resolution: 2048, 2048 # pixel
         read_noise: 1.5 # electron / pixel
-        dark_current: 0.004 # electron / (second * pixel)  NOTE THAT THIS IS 10x LOWER THAN THE SPEC SHEET, AS I AM ASSUMING IT IS VERY COLD IN SPAAAAACE.
+        dark_current: 0.004 # electron / (second * pixel)  NOTE THAT THIS IS 100x LOWER THAN THE SPEC SHEET, AS I AM ASSUMING IT IS VERY COLD IN SPAAAAACE.
         QE: kepler_cmos.csv
         minimum_exposure: 0.000032 # second
 
